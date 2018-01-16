@@ -1,3 +1,4 @@
+require 'rake'
 require 'rake/tasklib'
 require 'rake/dsl_definition'
 
@@ -11,7 +12,7 @@ module RakeToRuleThemAll
     def initialize(script, &task_block)
       @script = script
       @script_opts = []
-      define(&task_block)
+      define(task_block)
     end
 
     def name
@@ -27,14 +28,20 @@ module RakeToRuleThemAll
 
     private
 
-    def define(&task_block)
+    def define(task_block)
       desc description
       task name do |_, task_args|
-        task_block.call(*[self, task_args].slice(0, task_block.arity)) if task_block
-        debug = Rake.application.options.trace ? "DEBUG=1" : ""
+        call task_block, task_args
         sh debug, script, *script_opts
       end
     end
 
+    def call(task_block, task_args)
+      task_block.call(self, task_args) if task_block
+    end
+
+    def debug
+      Rake.application.options.trace ? "DEBUG=1" : ""
+    end
   end
 end
