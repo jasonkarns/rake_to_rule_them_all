@@ -6,9 +6,11 @@ module RakeToRuleThemAll
     include Rake::DSL
 
     attr_reader :script
+    attr_accessor :script_opts
 
     def initialize(script, &task_block)
       @script = script
+      @script_opts = []
       define(&task_block)
     end
 
@@ -31,7 +33,7 @@ module RakeToRuleThemAll
         task_block.call(*[self, task_args].slice(0, task_block.arity)) if task_block
         #TODO enable debug mode when trace
         #Rake.application.options.trace == true
-        sh script
+        sh script, *script_opts
       end
     end
 
