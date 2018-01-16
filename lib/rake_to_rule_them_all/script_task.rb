@@ -32,7 +32,9 @@ module RakeToRuleThemAll
       desc description
       task name do |_, task_args|
         call task_block, task_args
-        sh debug, script, *script_opts
+        sh debug, script, *script_opts do |ok, res|
+          puts "TODO: print failure message"
+        end
       end
     end
 
