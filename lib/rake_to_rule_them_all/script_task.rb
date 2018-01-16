@@ -31,9 +31,8 @@ module RakeToRuleThemAll
       desc description
       task name do |_, task_args|
         task_block.call(*[self, task_args].slice(0, task_block.arity)) if task_block
-        #TODO enable debug mode when trace
-        #Rake.application.options.trace == true
-        sh script, *script_opts
+        debug = Rake.application.options.trace ? "DEBUG=1" : ""
+        sh debug, script, *script_opts
       end
     end
 
