@@ -1,8 +1,6 @@
 # RakeToRuleThemAll
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rake_to_rule_them_all`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Do you use GitHub's [Scripts To Rule Them All](https://github.com/github/scripts-to-rule-them-all/) (or have a directory of scripts you execute in your Ruby project)? Wish you could just invoke them from Rake like your muscle memory expects? Now you can!
 
 ## Installation
 
@@ -22,13 +20,22 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+If you follow GitHub's [Scripts To Rule Them All](https://github.com/github/scripts-to-rule-them-all/) convention, or otherwise your scripts are in `script/`, just require the tasks in your Rakefile:
 
-## Development
+    require 'rake_to_rule_them_all/tasks'
+    
+This will add a rake task for each script in `script/` named the same as the script itself. Typically, it will be desireable to namespace the scripts:
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+    namespace :app do
+      require 'rake_to_rule_them_all/tasks'
+    end
+    
+Of course, there are some other customizations. Are you scripts in a directory other than `script/`?
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+    require 'rake_to_rule_them_all'
+    RakeToRuleThemAll.load_tasks 'other_dir/*`
+    
+`RakeToRuleThemAll.load_tasks` accepts 0-or-more glob patterns, which will be supplied to `Rake::FileList`, where each matched file in the file list is expected to be a script for which a task is created. You may also pass `Rake::FileList` instances directoy, if you wish.
 
 ## Contributing
 
