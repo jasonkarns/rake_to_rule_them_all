@@ -7,9 +7,9 @@ module RakeToRuleThemAll
 
     attr_reader :script
 
-    def initialize(script)
+    def initialize(script, &task_block)
       @script = script
-      define
+      define(&task_block)
     end
 
     def name
@@ -25,9 +25,10 @@ module RakeToRuleThemAll
 
     private
 
-    def define
+    def define(&task_block)
       desc description
-      task name do
+      task name do |_, task_args|
+        task_block.call(*[self, task_args].slice(0, task_block.arity)) if task_block
         #TODO enable debug mode when trace
         #Rake.application.options.trace == true
         sh script

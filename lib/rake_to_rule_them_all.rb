@@ -8,9 +8,9 @@ module RakeToRuleThemAll
 
   # Takes a Rake::FileList or 0-to-many patterns
   # Defaults to 'script/*'
-  def load_tasks(*args)
+  def load_tasks(*args, &task_block)
     file_list_from(args).each do |script|
-      ScriptTask.new script
+      ScriptTask.new script, &task_block
     end
   end
 
