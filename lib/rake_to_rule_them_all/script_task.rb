@@ -28,6 +28,8 @@ module RakeToRuleThemAll
     def define
       desc description
       task name do
+        #TODO enable debug mode when trace
+        #Rake.application.options.trace == true
         sh script
       end
     end
