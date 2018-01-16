@@ -1,6 +1,9 @@
+require 'rake/tasklib'
+require 'rake/dsl_definition'
+
 module RakeToRuleThemAll
-  class RakeTask < ::Rake::TaskLib
-    include ::Rake::DSL if defined?(::Rake::DSL)
+  class ScriptTask < Rake::TaskLib
+    include Rake::DSL
 
     attr_reader :script
 
